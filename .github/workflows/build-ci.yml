@@ -36,7 +36,9 @@ jobs:
         sudo apt-get update
         sudo apt-get install libosmesa6-dev
     - name: Build
-      run: cargo build --verbose
+      run: |
+        cargo build --release --verbose
+        strip -s target/release/stl-thumb
     - name: Run tests
       run: RUST_BACKTRACE=1 cargo test --verbose
 
@@ -72,9 +74,6 @@ jobs:
       with:
         detached: true
       if: ${{ github.event_name == 'workflow_dispatch' && inputs.debug_enabled }}
-    - name: Build Release
-      run: |
-        cargo build --release --target ${{ matrix.target }}
     - name: Prep build environment
       run: |
         if [ ${{ matrix.target }} == "armv7-unknown-linux-gnueabihf" ];
