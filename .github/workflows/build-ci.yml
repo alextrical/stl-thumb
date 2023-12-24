@@ -71,9 +71,16 @@ jobs:
         fi
         rustup target add ${{ matrix.target }}
         cargo install cargo-deb --force
+        cargo install cargo-generate-rpm --force
     - name: Package
-      run: cargo deb --target ${{ matrix.target }}
+      run: |
+        cargo deb --target ${{ matrix.target }}
+        cargo generate-rpm --target ${{ matrix.target }}
     - uses: actions/upload-artifact@v3
       with:
         name: deb-${{ matrix.target }}
         path: target/${{ matrix.target }}/debian/*.deb
+    - uses: actions/upload-artifact@v3
+      with:
+        name: deb-${{ matrix.target }}
+        path: target/${{ matrix.target }}/generate-rpm/*.rpm
