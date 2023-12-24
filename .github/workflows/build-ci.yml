@@ -66,6 +66,12 @@ jobs:
         sudo dpkg --add-architecture armhf
         sudo apt-get update
         sudo apt-get install gcc-arm-linux-gnueabihf gcc-aarch64-linux-gnu g++-arm-linux-gnueabihf g++-aarch64-linux-gnu libc-dev-armhf-cross libc-dev-arm64-cross libfreetype6-dev:arm64 libfreetype6-dev:armhf libfontconfig-dev:arm64 libfontconfig-dev:armhf
+    # Enable tmate debugging of manually-triggered workflows if the input option was provided
+    - name: Setup tmate session
+      uses: mxschmitt/action-tmate@v3
+      with:
+        detached: true
+      if: ${{ github.event_name == 'workflow_dispatch' && inputs.debug_enabled }}
     - name: Prep build environment
       run: |
         if [ ${{ matrix.target }} == "armv7-unknown-linux-gnueabihf" ];
@@ -92,10 +98,3 @@ jobs:
       with:
         name: deb-${{ matrix.target }}
         path: target/${{ matrix.target }}/generate-rpm/*.rpm
-    # Enable tmate debugging of manually-triggered workflows if the input option was provided
-    - name: Setup tmate session
-      uses: mxschmitt/action-tmate@v3
-      if: ${{ github.event_name == 'workflow_dispatch' && inputs.debug_enabled }}
-    - name: Setup tmate session
-      if: ${{ failure() }}
-      uses: mxschmitt/action-tmate@v3
