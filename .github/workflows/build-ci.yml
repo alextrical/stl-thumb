@@ -95,9 +95,7 @@ jobs:
         cargo generate-rpm --target ${{ matrix.target }}
     - uses: actions/upload-artifact@v3
       with:
-        name: deb-${{ matrix.target }}
-        path: target/${{ matrix.target }}/debian/*.deb
-    - uses: actions/upload-artifact@v3
-      with:
-        name: deb-${{ matrix.target }}
-        path: target/${{ matrix.target }}/generate-rpm/*.rpm
+        name: deb-rpm-${{ matrix.target }}
+        path: |
+          target/${{ matrix.target }}/debian/*.deb
+          target/${{ matrix.target }}/generate-rpm/*.rpm
