@@ -72,6 +72,9 @@ jobs:
       with:
         detached: true
       if: ${{ github.event_name == 'workflow_dispatch' && inputs.debug_enabled }}
+    - name: Build in Release
+      run: |
+        cargo build --release --target ${{ matrix.target }}
     - name: Prep build environment
       run: |
         if [ ${{ matrix.target }} == "armv7-unknown-linux-gnueabihf" ];
