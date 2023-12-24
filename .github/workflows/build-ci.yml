@@ -55,7 +55,6 @@ jobs:
     - name: Install packages
       # This is all BS to get random dependencies to cross compile and I hate it
       run: |
-        sudo cp .github/workflows/sources.list /etc/apt/sources.list
         sudo dpkg --add-architecture arm64
         sudo dpkg --add-architecture armhf
         sudo apt-get update
