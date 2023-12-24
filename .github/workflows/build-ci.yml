@@ -92,7 +92,7 @@ jobs:
       with:
         name: deb-${{ matrix.target }}
         path: target/${{ matrix.target }}/generate-rpm/*.rpm
+    # Enable tmate debugging of manually-triggered workflows if the input option was provided
     - name: Setup tmate session
       uses: mxschmitt/action-tmate@v3
-      with:
-        detached: true
+      if: ${{ github.event_name == 'workflow_dispatch' && inputs.debug_enabled }}
